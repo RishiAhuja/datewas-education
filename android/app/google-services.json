@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "532970582564",
+    "project_id": "datewasapp",
+    "storage_bucket": "datewasapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:532970582564:android:32ed52c90ed4500c629eb1",
+        "android_client_info": {
+          "package_name": "com.rishi.datewas_education"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "532970582564-8rsdd8van08untt8c26iegn90fbpkaim.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3A0F8mvJWVMtG00Rp2il5jIfKcccH-Ig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "532970582564-8rsdd8van08untt8c26iegn90fbpkaim.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
