@@ -36,5 +36,14 @@ class DatabaseMethods
     Firestore.instance.collection("${classText}thZoomLink").add(userMap);
   }
 
+  questionSubmission(int classText, userMap)
+  {
+    Firestore.instance.collection("${classText}thQuestionBankSub").add(userMap);
+  }
+
+  solutionSubmission(int classText, userMap)
+  {
+    Firestore.instance.collection("${classText}thSolutionSub").add(userMap);
+  }
 
 }

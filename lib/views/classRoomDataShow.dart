@@ -135,7 +135,7 @@ class TileData extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: GestureDetector(
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NetworkImages(urls: imageFiles))),
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NetworkImages(urls: imageFiles, topic: header, date: date, time: time,))),
             child: Material(
               elevation: 10,
               borderRadius: BorderRadius.circular(30),
