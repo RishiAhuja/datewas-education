@@ -46,4 +46,15 @@ class DatabaseMethods
     Firestore.instance.collection("${classText}thSolutionSub").add(userMap);
   }
 
+
+
+
+  topicIdentification(String topic, String collection)
+  async {
+    return await Firestore.instance.collection("$collection").where("topic", isEqualTo: topic).getDocuments();
+  }
+
+
+
+
 }

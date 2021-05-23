@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:datewas_education/helper/NetworkImage.dart';
 import 'package:datewas_education/helper/PDFViewAsset.dart';
 import 'package:datewas_education/helper/image_view.dart';
@@ -13,10 +14,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 bool _isSend = false;
 
-StateSetter _setState;
+
 
 
 
@@ -27,18 +29,27 @@ List urls = [];
 String _timeString;
 String _dateString;
 String _uploadedFileURL;
-String _bytesSend;
+double _bytesSend;
 int _fileSend = 0;
 
 List _selectedFiles = [];
 List _selectedExtentions = [];
+List _selectedPath = [];
+
+final Map<String, String> map = {
+
+};
+
+
 
 class NetworkImages extends StatefulWidget {
   final urls;
   final String topic;
   final String date;
   final String time;
-  NetworkImages({this.urls, this.topic, this.date, this.time});
+  final String uploadTask;
+  final int classText;
+  NetworkImages({this.urls, this.topic, this.date, this.time, this.uploadTask, this.classText});
 
   @override
   _NetworkImagesState createState() => _NetworkImagesState();
@@ -46,18 +57,19 @@ class NetworkImages extends StatefulWidget {
 
 class _NetworkImagesState extends State<NetworkImages> {
   DatabaseMethods databaseMethods = new DatabaseMethods();
-
+  StateSetter _setState;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   final picker = ImagePicker();
 
   List _links = [];
   List _extention = [];
-
+  String userName;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getUserValueSF();
     print(widget.urls);
 
     RegExp exp = new RegExp(
@@ -65,7 +77,6 @@ class _NetworkImagesState extends State<NetworkImages> {
     Iterable<RegExpMatch> matches = exp.allMatches('${widget.urls}');
 
     matches.forEach((match) {
-      //print('${widget.urls}'.substring(match.start, match.end));
       _links.add('${widget.urls}'.substring(match.start, match.end));
       if('${widget.urls}'.substring(match.start, match.end).contains('jpg') || '${widget.urls}'.substring(match.start, match.end).contains('jpeg') || '${widget.urls}'.substring(match.start, match.end).contains('png')){
         _extention.add("image");
@@ -108,6 +119,7 @@ class _NetworkImagesState extends State<NetworkImages> {
         _selectedFiles.add(image);
         print(image.path);
         _selectedExtentions.add('image');
+        _selectedPath.add(image.path.split("/").last);
       }
 
     });
@@ -123,6 +135,7 @@ class _NetworkImagesState extends State<NetworkImages> {
         setState(() {
           _selectedFiles.add(file);
           _selectedExtentions.add('pdf');
+          _selectedPath.add(file.path.split("/").last);
         });
         print(file.path);
 
@@ -136,24 +149,36 @@ class _NetworkImagesState extends State<NetworkImages> {
     }
   }
 
+  getUserValueSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Return bool
+    String user = prefs.getString('user');
+    print(user);
+    if(user != null)
+    {
+      setState(() {
+        userName = user;
+      });
+    }
+    return user;
+  }
 
-  uploadQuestionLoop()
+  uploadSubmission()
   async{
     try {
       _getTime();
       _getDate();
-      for (int i = 0; i < images.length; i++) {
-        final StorageReference storageReference = FirebaseStorage().ref().child("multiple2/${imagesNativePath[i].toString()}");
+      for (int i = 0; i < _selectedFiles.length; i++) {
+        final StorageReference storageReferences = FirebaseStorage().ref().child("students/${_selectedPath[i].toString()}");
 
-        final StorageUploadTask uploadTask = storageReference.putFile(images[i]);
+        final StorageUploadTask uploadTask = storageReferences.putFile(_selectedFiles[i]);
 
         final StreamSubscription<StorageTaskEvent> streamSubscription =
         uploadTask.events.listen((event) {
           print('EVENT ${event.type}');
           print(event.snapshot.bytesTransferred / 1000000);
-          _setState(() {
-
-            _bytesSend = (event.snapshot.bytesTransferred / 1000000).toStringAsFixed(2);
+          setState(() {
+            _bytesSend = double.parse((event.snapshot.bytesTransferred / 1000000).toStringAsFixed(2));
             print(_bytesSend);
 
           });
@@ -163,31 +188,48 @@ class _NetworkImagesState extends State<NetworkImages> {
         await uploadTask.onComplete;
         streamSubscription.cancel();
 
-        // String imageUrl = await storageReference.getDownloadURL();
-        // setState(() {
-        //   urls.add(imageUrl);
-        //   map['$i'] = '$imageUrl';
-        //   print(map);
-        // });
-        // _setState(() {
-        //   _fileSend = _fileSend + 1;
-        // });
-
+        String imageUrl = await storageReferences.getDownloadURL();
+        setState(() {
+          urls.add(imageUrl);
+          map['$i'] = '$imageUrl';
+          print(map);
+        });
+        _setState(() {
+          _fileSend = _fileSend + 1;
+        });
 
       }
 
-      // Map<String, dynamic> userMap = {
-      //   "date": _dateString,
-      //   "time": _timeString,
-      //   "header": questionHeader.text,
-      //   "link": questionLink.text,
-      //   'imageFiles': map,
-      // };
 
-      //databaseMethods.questionUpload(widget.classInt, userMap);
+
+
+
+      Map<String, dynamic> userMap = {
+        "date": _dateString,
+        "time": _timeString,
+        "name" : userName,
+        'imageFiles': map,
+        'topic': widget.topic
+      };
+
+      print(widget.uploadTask);
+      print('${widget.classText}thQuestionBankSub');
+      if(widget.uploadTask == '${widget.classText}thQuestionBankSub'){
+        print("ok1");
+        databaseMethods.questionSubmission(widget.classText, userMap);
+
+      }
+      if(widget.uploadTask == '${widget.classText}thSolutionSub'){
+        print("ok2");
+
+        databaseMethods.solutionSubmission(widget.classText, userMap);
+
+      }
+
+
+
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Uploaded successfully!', style: GoogleFonts.montserrat())));
       setState(() {
-
         _isSend = true;
       });
     } catch (e) {
@@ -201,6 +243,7 @@ class _NetworkImagesState extends State<NetworkImages> {
   Widget build(BuildContext context) {
     // return Container();
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
@@ -340,6 +383,7 @@ class _NetworkImagesState extends State<NetworkImages> {
                       child: Align(
                           alignment: Alignment.centerLeft,
                           child: ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                               itemCount: _links.length,
                               itemBuilder: (BuildContext context, int index){
@@ -364,19 +408,54 @@ class _NetworkImagesState extends State<NetworkImages> {
                                     borderRadius: BorderRadius.circular(10),
 
                                   ),
-                                  child: Row(
+                                  child: Column(
                                     children: [
-                                      _extention[index] == 'pdf' ? Icon(Icons.picture_as_pdf, color: Colors.white) : Icon(Icons.image, color: Colors.white),
-                                      SizedBox(width: 7),
-                                      Text(
-                                          'File ${index + 1}',
-                                        style: GoogleFonts.montserrat(
-                                          textStyle: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold
-                                          )
-                                        ),
+                                      _extention[index] == 'image' ? Column(
+                                        children: [
+                                          CachedNetworkImage(
+                                              imageUrl: "${_links[index]}",
+                                              fit:BoxFit.cover,
+                                              height: 45,
+                                              width: MediaQuery.of(context).size.width/1.3,
+                                              placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                              errorWidget: (context, url, error) => Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Icon(Icons.error, size: 20, color: Colors.red),
+                                                  Padding(
+                                                    padding: EdgeInsets.all(18.0),
+                                                    child: Text(
+                                                      'Please check your network and try again',
+                                                      textAlign: TextAlign.center,
+                                                      style: GoogleFonts.montserrat(
+                                                          fontSize: 14
+                                                      ),
+                                                    ),
+                                                  ),
+
+                                                ],
+                                              ),
+                                          ),
+                                          SizedBox(height: 7),
+                                        ],
+                                      ) : Container(),
+
+                                      Row(
+                                        children: [
+
+                                          _extention[index] == 'pdf' ? Icon(Icons.picture_as_pdf, color: Colors.white) : Icon(Icons.image, color: Colors.white),
+                                          SizedBox(width: 7),
+                                          Text(
+                                              'File ${index + 1}',
+                                            style: GoogleFonts.montserrat(
+                                              textStyle: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold
+                                              )
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
@@ -529,89 +608,162 @@ class _NetworkImagesState extends State<NetworkImages> {
                     Container(
                       width: MediaQuery.of(context).size.width/1.3,
                       child: ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: _selectedFiles.length,
                           itemBuilder: (BuildContext context, int index){
-                            return GestureDetector(
-                              onTap: ()
-                              {
-                                if(_selectedExtentions[index] == 'pdf')
-                                {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => PDFViewAsset(file: _selectedFiles[index], index: index,)));
-                                }
-                                if(_selectedExtentions[index] == 'image')
-                                {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ImageView(index: index, image: _selectedFiles[index])));
-                                }
-                              },
-                              child: Container(
-                                padding: EdgeInsets.only(left: 10),
-                                margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                                width: MediaQuery.of(context).size.width/1.3,
-                                decoration: BoxDecoration(
-                                  color: Colors.teal[200],
-                                  borderRadius: BorderRadius.circular(10),
+                            return Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: ()
+                                  {
+                                    if(_selectedExtentions[index] == 'pdf')
+                                    {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => PDFViewAsset(file: _selectedFiles[index], index: index,)));
+                                    }
+                                    if(_selectedExtentions[index] == 'image')
+                                    {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => ImageView(index: index, image: _selectedFiles[index])));
+                                    }
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.only(top: 10),
+                                    margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                    width: MediaQuery.of(context).size.width/1.3,
+                                    decoration: BoxDecoration(
+                                      color: Colors.teal[200],
+                                      borderRadius: BorderRadius.circular(10),
 
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
-                                        _selectedExtentions[index] == 'pdf' ? Icon(Icons.picture_as_pdf, color: Colors.white) : Icon(Icons.image, color: Colors.white),
-                                        SizedBox(width: 7),
-                                        Text(
-                                          'File ${index + 1}',
-                                          style: GoogleFonts.montserrat(
-                                              textStyle: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold
+                                        _selectedExtentions[index] == 'image' ? Image.file(_selectedFiles[index], fit:BoxFit.cover,
+                                          height: 45,
+                                          width: MediaQuery.of(context).size.width/1.5,) : Container(),
+                                        Container(
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  _selectedExtentions[index] == 'pdf' ? Icon(Icons.picture_as_pdf, color: Colors.white) : Icon(Icons.image, color: Colors.white),
+                                                  SizedBox(width: 7),
+                                                  Text(
+                                                    'File ${index + 1}',
+                                                    style: GoogleFonts.montserrat(
+                                                        textStyle: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 18,
+                                                            fontWeight: FontWeight.bold
+                                                        )
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                child: IconButton(
+                                                  icon: Icon(Icons.clear, color: Colors.white),
+                                                  onPressed: ()
+                                                  {
+                                                    setState(() {
+                                                      _selectedFiles.removeAt(index);
+                                                      _selectedExtentions.removeAt(index);
+                                                      _selectedPath.removeAt(index);
+
+                                                    });
+                                                  },
+                                                ),
                                               )
+
+                                            ],
                                           ),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
-                                      child: IconButton(
-                                        icon: Icon(Icons.clear, color: Colors.white),
-                                        onPressed: ()
-                                        {
-                                          _selectedFiles.removeAt(index);
-                                        },
-                                      ),
-                                    )
-
-                                  ],
+                                  ),
                                 ),
-                              ),
+                                GestureDetector(
+                                  onTap: ()
+                                  {
+                                    uploadSubmission();
+                                    showDialog(
+                                      // barrierDismissible: false,
+                                      context: context,
+
+                                      builder: (BuildContext context) {
+
+                                        return AlertDialog(
+                                          actions: <Widget>[
+                                            _isSend ? TextButton(
+                                              child: Text(
+                                                'OK',
+                                                style: GoogleFonts.montserrat(),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                                _fileSend = 0;
+                                                _bytesSend = 0;
+                                              },
+                                            ) : Container(),
+                                          ],
+                                          content: StatefulBuilder(
+                                            builder: (BuildContext context, StateSetter setState) {
+                                              _setState = setState;
+
+                                              return Container(
+                                                  child: Column(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    children: [
+                                                      Text('Files sent', style: GoogleFonts.montserrat(),),
+
+                                                      Text('${_fileSend.toString()} / ${_selectedFiles.length}', style: GoogleFonts.montserrat(),),
+                                                      Text('$_bytesSend MB Sent', style: GoogleFonts.montserrat(),)
+                                                    ],
+                                                  )
+                                              );
+                                            },
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.symmetric(vertical: 10),
+                                    width: MediaQuery.of(context).size.width/1.4,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Colors.teal[100],
+                                          Colors.teal[300],
+                                          Colors.teal
+                                        ]
+                                      ),
+                                      borderRadius: BorderRadius.circular(10)
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Submit',
+                                        style: GoogleFonts.montserrat(
+                                          textStyle: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 25
+                                          )
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
                             );
                           }
                       ),
                     ),
-
-                    Container(
-                      child: _selectedFiles != null ? Text("submit") : Container(),
-                    )
-
-
-
                   ],
                 ),
               ),
-
-
-
-
-
-
-
-
-
-
-
-
-
             ],
           )
         ],

@@ -44,10 +44,10 @@ class _ClassRoomDataSelectionState extends State<ClassRoomDataSelection> {
               ),
             ),
 
-            classRoomSelectionButton('Video Material', '${widget.classText}thVideoMaterial',context),
-            classRoomSelectionButton('Question Bank', '${widget.classText}thQuestionBank', context),
-            classRoomSelectionButton('Solutions', '${widget.classText}thSolution', context),
-            classRoomSelectionButton('Zoom Link', '${widget.classText}thZoomLink', context),
+            classRoomSelectionButton('Video Material', '${widget.classText}thVideoMaterial', 'null', widget.classText, context, ),
+            classRoomSelectionButton('Question Bank', '${widget.classText}thQuestionBank', '${widget.classText}thQuestionBankSub' ,widget.classText, context, ),
+            classRoomSelectionButton('Solutions', '${widget.classText}thSolution','${widget.classText}thSolutionSub',  widget.classText, context, ),
+            classRoomSelectionButton('Zoom Link', '${widget.classText}thZoomLink', 'null' , widget.classText, context, ),
           ],
       ),
     );
@@ -55,7 +55,7 @@ class _ClassRoomDataSelectionState extends State<ClassRoomDataSelection> {
 }
 
 
-onClassRoomSelectionButtonPressed(String text, String collection, context)
+onClassRoomSelectionButtonPressed(String text, String collection, String submmison, int classText, context)
 {
   if(text == 'Video Material')
     {
@@ -64,12 +64,12 @@ onClassRoomSelectionButtonPressed(String text, String collection, context)
 
   if(text == 'Question Bank')
   {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ClassRoomDataShow(dataName: 'Question Bank', collection: '$collection', PDForLink: true)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ClassRoomDataShow(dataName: 'Question Bank', collection: '$collection', PDForLink: true, submmison: submmison, ClassText: classText,)));
   }
 
   if(text == 'Solutions')
   {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ClassRoomDataShow(dataName: 'Solutions', collection: '$collection', PDForLink: true)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ClassRoomDataShow(dataName: 'Solutions', collection: '$collection', PDForLink: true, submmison: submmison, ClassText: classText)));
   }
 
 
@@ -81,12 +81,12 @@ onClassRoomSelectionButtonPressed(String text, String collection, context)
 }
 
 
-Widget classRoomSelectionButton(String classText, String collection, context)
+Widget classRoomSelectionButton(String classText, String collection, recieveTask, classInt, context, )
 {
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: GestureDetector(
-      onTap: () => onClassRoomSelectionButtonPressed(classText, collection, context),
+      onTap: () => onClassRoomSelectionButtonPressed(classText, collection, recieveTask, classInt, context, ),
       child: Material(
         borderRadius: BorderRadius.circular(30),
         elevation: 7,

@@ -6,6 +6,7 @@ import 'package:datewas_education/helper/PDFViewAsset.dart';
 import 'package:datewas_education/helper/image_view.dart';
 import 'package:datewas_education/helper/pdf_view.dart';
 import 'package:datewas_education/services/database.dart';
+import 'package:datewas_education/views/topicApp.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -601,7 +602,6 @@ async{
                             onTap: () => pickFile('q'),
                             child: Container(
                               height: 50,
-                                //margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
                                 padding: EdgeInsets.symmetric(horizontal: 10),
                                 decoration: BoxDecoration(
                                     border: Border.all(color: Colors.white54, width: 3),
@@ -838,306 +838,45 @@ async{
       ],
     ),
   ),
-
-
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Material(
+        GestureDetector(
+          onTap: () 
+          {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => TopicAdd(collection: '${widget.classInt}thSolution',)));
+          },
+          child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Material(
+                    borderRadius: BorderRadius.circular(30),
+                    elevation: 7,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width/1.3,
+                      decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
-                          elevation: 7,
-                          child: Container(
-                            width: MediaQuery.of(context).size.width/1.3,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: Colors.grey[400]
-                            ),
-                            child: ExpansionTile(
-                              trailing: Icon(
-                                Icons.keyboard_arrow_down_rounded,
-                                color: Colors.white,
+                          color: Colors.grey[400]
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: Text(
+                            'Solutions',
+                            style: GoogleFonts.montserrat(
+                              textStyle: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold
                               ),
-                              title: Text(
-                                  'Solutions',
-                                  style: GoogleFonts.montserrat(
-                                    textStyle: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold
-                                    ),
-                                  )
-                              ),
-                              children: <Widget>[
-                                Container(
-                                  margin: EdgeInsets.fromLTRB(20, 20, 20, 10),
-                                  padding: EdgeInsets.symmetric(horizontal: 10),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.white54, width: 3),
-                                      borderRadius: BorderRadius.circular(12)
-                                  ),
-                                  child: TextFormField(
-                                    controller: solutionHeader,
-                                    decoration: InputDecoration(
-                                        hintText: 'Header...',
-                                        hintStyle: GoogleFonts.montserrat(
-                                            textStyle: TextStyle(
-                                                color: Colors.white54,
-                                                fontWeight: FontWeight.bold
-                                            )
-                                        ),
-                                        border: InputBorder.none
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 10),
-                                  width: MediaQuery.of(context).size.width/1.5,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        flex: 3,
-                                        child: GestureDetector(
-                                            onTap: () => pickFile('s'),
-                                            child: Container(
-                                                height: 50,
-                                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                                decoration: BoxDecoration(
-                                                    border: Border.all(color: Colors.white54, width: 3),
-                                                    borderRadius: BorderRadius.circular(12)
-                                                ),
-                                                child: Align(
-                                                    alignment: Alignment.centerLeft,
-                                                    child: Text(
-                                                      '$attachmentQuestion',
-                                                      style: GoogleFonts.montserrat(
-                                                          textStyle: TextStyle(
-                                                              color: Colors.white54,
-                                                              fontWeight: FontWeight.bold
-                                                          )
-                                                      ),
-                                                    )
-                                                )
-                                            )
-                                        ),
-                                      ),
-
-                                      SizedBox(width: 10),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Container(
-                                          height: 50,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(color: Colors.white54, width: 3),
-                                              borderRadius: BorderRadius.circular(12)
-                                          ),
-                                          child: IconButton(
-                                            onPressed: ()
-                                            {
-                                              getImage();
-                                            },
-                                            icon: Icon(Icons.camera_alt, color: Colors.grey),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-
-
-                                SizedBox(height: 30),
-                                Container(
-                                    width: MediaQuery.of(context).size.width/1.4,
-                                    child: Column(
-                                      children: [
-                                        images.isEmpty ? Container() : Container(
-                                          width: MediaQuery.of(context).size.width/1.4,
-                                          child: Column(
-                                            children: [
-                                              Text(
-                                                'Attachments',
-                                                style: GoogleFonts.montserrat(
-                                                  textStyle: TextStyle(
-                                                      fontWeight: FontWeight.bold,
-                                                      color: Colors.grey[200],
-                                                      fontSize: 20
-                                                  ),
-
-                                                ),
-                                              ),
-                                              ListView.builder(
-                                                  shrinkWrap: true,
-                                                  itemCount: images.length,
-                                                  itemBuilder: (BuildContext context,int index){
-                                                    return Padding(
-                                                      padding: const EdgeInsets.all(8.0),
-                                                      child: Container(
-                                                          padding: EdgeInsets.symmetric(horizontal: 8),
-                                                          decoration: BoxDecoration(
-                                                              border: Border.all(color: Colors.grey[300], width: 3),
-                                                              borderRadius: BorderRadius.circular(10)
-                                                          ),
-                                                          child: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                            children: [
-                                                              Row(
-                                                                children: [
-                                                                  GestureDetector(
-                                                                    onTap: ()
-                                                                    {
-                                                                      print(imagesNativePath[index]);
-                                                                      if(imagesNativePath[index].contains('jpg'))
-                                                                      {
-                                                                        Navigator.push(context, MaterialPageRoute(builder: (context) => ImageView(image: images[index], index: index,)));
-                                                                      }
-                                                                      else{
-                                                                        Navigator.push(context, MaterialPageRoute(builder: (context) => PDFViewAsset(file: images[index], index: index,)));
-                                                                      }
-                                                                    },
-                                                                    child: Padding(
-                                                                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                                                                      child: Icon(
-                                                                        Icons.remove_red_eye,
-                                                                        color: Colors.white54,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(width: 10),
-                                                                  Text(
-                                                                    "Image ${index + 1}",
-                                                                    style: GoogleFonts.montserrat(
-                                                                        textStyle: TextStyle(
-                                                                            color: Colors.white54,
-                                                                            fontWeight: FontWeight.bold
-                                                                        )
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              IconButton(
-                                                                onPressed: ()
-                                                                {
-                                                                  setState(() {
-                                                                    images.removeAt(index);
-                                                                    imagesNativePath.removeAt(index);
-                                                                    print(images);
-                                                                  });
-                                                                },
-                                                                icon: Icon(
-                                                                    Icons.clear_rounded,
-                                                                    color: Colors.white54
-                                                                ),
-                                                              )
-
-                                                            ],
-                                                          )
-                                                      ),
-                                                    );
-                                                  }
-                                              ),
-                                            ],
-                                          ),
-                                        )
-
-                                      ],
-                                    )
-                                ),
-                                SizedBox(height: 10),
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 15),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      uploadSolutionLoop();
-                                      showDialog(
-                                        // barrierDismissible: false,
-                                        context: context,
-
-                                        builder: (BuildContext context) {
-
-                                          return AlertDialog(
-                                            actions: <Widget>[
-                                              _isSend ? TextButton(
-                                                child: Text(
-                                                  'OK',
-                                                  style: GoogleFonts.montserrat(),
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                  _fileSend = 0;
-                                                  _bytesSend = '0';
-                                                },
-                                              ) : Container(),
-                                            ],
-                                            content: StatefulBuilder(
-                                              builder: (BuildContext context, StateSetter setState) {
-                                                _setState = setState;
-
-                                                return Container(
-                                                    child: Column(
-                                                      mainAxisSize: MainAxisSize.min,
-                                                      children: [
-                                                        Text('Files sent', style: GoogleFonts.montserrat(),),
-
-                                                        Text('${_fileSend.toString()} / ${images.length}', style: GoogleFonts.montserrat(),),
-                                                        Text('$_bytesSend MB Sent', style: GoogleFonts.montserrat(),)
-                                                      ],
-                                                    )
-                                                );
-                                              },
-                                            ),
-                                          );
-                                        },
-                                      );
-                                    },
-
-
-                                    child: Material(
-                                      borderRadius: BorderRadius.circular(10),
-                                      elevation: 7,
-                                      child: Container(
-                                        height: 55,
-                                        width: MediaQuery.of(context).size.width/2,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10),
-                                            gradient: LinearGradient(
-                                                colors: [
-                                                  Colors.blue[300],
-                                                  Colors.blue
-                                                ]
-                                            )
-                                        ),
-                                        child: Align(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                                'Upload',
-                                                style: GoogleFonts.montserrat(
-                                                  textStyle: TextStyle(
-                                                      fontSize: 20,
-                                                      color: Colors.white,
-                                                      fontWeight: FontWeight.bold
-                                                  ),
-                                                )
-                                            )
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-
-
-
-
-                              ],
-                            ),
-                          ),
+                            )
                         ),
+                      ),
+                      ),
 
 
-
-                      ],
+                        )
+                        ],
+                      ),
                     ),
-                  ),
+        ),
 
 
 

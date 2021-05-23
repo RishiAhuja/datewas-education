@@ -11,6 +11,7 @@ class Authenticate extends StatefulWidget {
 }
 
 bool _isSigned = false;
+String userName;
 
 class _AuthenticateState extends State<Authenticate> {
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -20,6 +21,7 @@ class _AuthenticateState extends State<Authenticate> {
   void initState() {
     super.initState();
     getBoolValuesSF();
+    getUserValueSF();
     _firebaseMessaging.configure(
       onMessage: (message) async{
         setState(() {    
@@ -79,6 +81,22 @@ class _AuthenticateState extends State<Authenticate> {
     }
     return boolValue;
   }
+
+
+  getUserValueSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Return bool
+    String user = prefs.getString('user');
+    print(user);
+    if(user != null)
+    {
+      setState(() {
+        userName = user;
+      });
+    }
+    return user;
+  }
+
 }
 
 

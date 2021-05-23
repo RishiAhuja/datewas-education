@@ -1,9 +1,6 @@
-import 'dart:async';
-
 import 'package:datewas_education/services/database.dart';
 import 'package:datewas_education/views/classRoom.dart';
 import 'package:datewas_education/views/teachLogin.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -274,6 +271,7 @@ class _SignUpState extends State<SignUp> {
                           // ----------Login Button Start-------------//
                           GestureDetector(
                             onTap: (){
+                              addUserNameToSF();
                               signUserUp();
                               addBoolToSF();
                             },
@@ -319,6 +317,11 @@ class _SignUpState extends State<SignUp> {
   addBoolToSF() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('isSigned', true);
+  }
+
+  addUserNameToSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('user', nameController.text);
   }
 
 }

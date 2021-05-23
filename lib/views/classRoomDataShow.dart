@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datewas_education/helper/Images.dart';
-import 'package:datewas_education/helper/pdf_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -13,7 +12,9 @@ class ClassRoomDataShow extends StatefulWidget {
   final String collection;
   final String dataName;
   final bool PDForLink;
-  ClassRoomDataShow({this.collection, this.dataName, this.PDForLink});
+  final String submmison;
+  final int ClassText;
+  ClassRoomDataShow({this.collection, this.dataName, this.PDForLink, this.submmison, this.ClassText});
   @override
   _ClassRoomDataShowState createState() => _ClassRoomDataShowState();
 }
@@ -49,6 +50,7 @@ class _ClassRoomDataShowState extends State<ClassRoomDataShow> {
         timeList.add(document.data['time']);
         pdfList.add(document.data['pdf']);
         imageFiles.add(jsonEncode(document.data['imageFiles']));
+
         //print(document.data['imageFiles']);
         print(imageF);
       });
@@ -91,6 +93,9 @@ class _ClassRoomDataShowState extends State<ClassRoomDataShow> {
                   time: timeList[index],
                   pdf: pdfList[index],
                   imageFiles: imageFiles[index],
+                  PDForLink: widget.PDForLink,
+                  uploadTask: widget.submmison,
+                  classText: widget.ClassText,
                 );
               },
             ),
@@ -124,8 +129,11 @@ class TileData extends StatelessWidget {
   final String time;
   final String pdf;
   final String imageFiles;
+  final bool PDForLink;
+  final String uploadTask;
+  final int classText;
 
-  TileData({this.header, this.link, this.date, this.time, this.pdf, this.imageFiles});
+  TileData({this.header, this.link, this.date, this.time, this.pdf, this.imageFiles, this.PDForLink, this.uploadTask, this.classText});
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +143,16 @@ class TileData extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: GestureDetector(
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NetworkImages(urls: imageFiles, topic: header, date: date, time: time,))),
+            onTap: () {
+              if(PDForLink)
+                {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NetworkImages(urls: imageFiles, topic: header, date: date, time: time, uploadTask: uploadTask, classText: classText,)));
+                }
+              if(PDForLink == false)
+                {
+                  _launchInBrowser(link);
+                }
+            },
             child: Material(
               elevation: 10,
               borderRadius: BorderRadius.circular(30),
@@ -182,37 +199,31 @@ class TileData extends StatelessWidget {
 }
 
 
-Future<void> _launchInBrowser(String url, String text, context) async {
+Future<void> _launchInBrowser(String url) async {
 
 
-  // if(url.startsWith('http://') || url.startsWith('https://'))
-  //   {
-  //     if(url.contains('pdf'))
-  //     {
-  //       Navigator.push(context, MaterialPageRoute(builder: (context) => PDFView(url: url, text: text)));
-  //     }
-  //     else {
-  //       await launch(
-  //         url,
-  //         forceSafariVC: false,
-  //         forceWebView: false,
-  //         headers: <String, String>{'my_header_key': 'my_header_value'},
-  //       );
-  //     }
-  //
-  //
-  //   }
-  // else{
-  //   url = 'https://$url';
-  //
-  //
-  //     await launch(
-  //       url,
-  //       forceSafariVC: false,
-  //       forceWebView: false,
-  //       headers: <String, String>{'my_header_key': 'my_header_value'},
-  //     );
-  //   }
+  if(url.startsWith('http://') || url.startsWith('https://'))
+    {
+        await launch(
+          url,
+          forceSafariVC: false,
+          forceWebView: false,
+          headers: <String, String>{'my_header_key': 'my_header_value'},
+        );
+
+
+    }
+  else{
+    url = 'https://$url';
+
+
+      await launch(
+        url,
+        forceSafariVC: false,
+        forceWebView: false,
+        headers: <String, String>{'my_header_key': 'my_header_value'},
+      );
+    }
 
 }
 
