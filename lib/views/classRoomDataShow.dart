@@ -14,12 +14,15 @@ class ClassRoomDataShow extends StatefulWidget {
   final bool PDForLink;
   final String submmison;
   final int ClassText;
-  ClassRoomDataShow({this.collection, this.dataName, this.PDForLink, this.submmison, this.ClassText});
+  final bool isSyllabus;
+  ClassRoomDataShow({ this.collection,  this.dataName,   this.PDForLink,  this.submmison, this.ClassText, @required this.isSyllabus});
+
   @override
   _ClassRoomDataShowState createState() => _ClassRoomDataShowState();
 }
 
 class _ClassRoomDataShowState extends State<ClassRoomDataShow> {
+  String _dateString;
   List headerList = [];
   List linkList = [];
   List dateList = [];
@@ -27,8 +30,6 @@ class _ClassRoomDataShowState extends State<ClassRoomDataShow> {
   List pdfList = [];
   List imageFiles = [];
   // Map<String, dynamic> imageFiles;
-  String imageF;
-
   @override
   void initState() {
     // TODO: implement initState
@@ -40,7 +41,7 @@ class _ClassRoomDataShowState extends State<ClassRoomDataShow> {
   loadData()
   async{
     QuerySnapshot snap = await
-    Firestore.instance.collection(widget.collection).getDocuments();
+    Firestore.instance.collection(widget.collection).orderBy('date', descending: true).getDocuments();
 
     snap.documents.forEach((document) {
       setState(() {
@@ -50,9 +51,6 @@ class _ClassRoomDataShowState extends State<ClassRoomDataShow> {
         timeList.add(document.data['time']);
         pdfList.add(document.data['pdf']);
         imageFiles.add(jsonEncode(document.data['imageFiles']));
-
-        //print(document.data['imageFiles']);
-        print(imageF);
       });
     });
   }
@@ -96,6 +94,8 @@ class _ClassRoomDataShowState extends State<ClassRoomDataShow> {
                   PDForLink: widget.PDForLink,
                   uploadTask: widget.submmison,
                   classText: widget.ClassText,
+                  index: index,
+                  isSyllabus: widget.isSyllabus,
                 );
               },
             ),
@@ -132,8 +132,9 @@ class TileData extends StatelessWidget {
   final bool PDForLink;
   final String uploadTask;
   final int classText;
-
-  TileData({this.header, this.link, this.date, this.time, this.pdf, this.imageFiles, this.PDForLink, this.uploadTask, this.classText});
+  final int index;
+  final bool isSyllabus;
+  TileData({this.header, this.link, this.date, this.isSyllabus, this.time, this.pdf, this.imageFiles, this.PDForLink, this.uploadTask, this.classText, this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +147,8 @@ class TileData extends StatelessWidget {
             onTap: () {
               if(PDForLink)
                 {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NetworkImages(urls: imageFiles, topic: header, date: date, time: time, uploadTask: uploadTask, classText: classText,)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NetworkImages(urls: imageFiles, link: link, topic: header, date: date, time: time, uploadTask: uploadTask, classText: classText, isSyllabus: isSyllabus
+                  )));
                 }
               if(PDForLink == false)
                 {
@@ -168,7 +170,7 @@ class TileData extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 15),
-                          child: Icon(Icons.book_rounded),
+                          child: Text("${index + 1}.", style: GoogleFonts.montserrat(textStyle: TextStyle(fontSize: 17)),)
                         ),
                         SizedBox(width: 20),
                         Column(

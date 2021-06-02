@@ -15,6 +15,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 bool _isSend = false;
 
@@ -29,7 +30,7 @@ List urls = [];
 String _timeString;
 String _dateString;
 String _uploadedFileURL;
-double _bytesSend;
+double _bytesSend = 0.0;
 int _fileSend = 0;
 
 List _selectedFiles = [];
@@ -43,13 +44,16 @@ final Map<String, String> map = {
 
 
 class NetworkImages extends StatefulWidget {
+  GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   final urls;
   final String topic;
   final String date;
   final String time;
   final String uploadTask;
   final int classText;
-  NetworkImages({this.urls, this.topic, this.date, this.time, this.uploadTask, this.classText});
+  final bool isSyllabus;
+  final String link;
+  NetworkImages({this.urls, this.topic, this.date, this.time, this.uploadTask, this.link, this.classText, this.isSyllabus});
 
   @override
   _NetworkImagesState createState() => _NetworkImagesState();
@@ -65,11 +69,13 @@ class _NetworkImagesState extends State<NetworkImages> {
   List _links = [];
   List _extention = [];
   String userName;
+  String punjab;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getUserValueSF();
+    getPunjabValueSF();
     print(widget.urls);
 
     RegExp exp = new RegExp(
@@ -163,6 +169,21 @@ class _NetworkImagesState extends State<NetworkImages> {
     return user;
   }
 
+  getPunjabValueSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Return bool
+    String _punjab = prefs.getString('e-punjab');
+    print(_punjab);
+    if(_punjab != null)
+    {
+      setState(() {
+        punjab = _punjab;
+      });
+    }
+    return _punjab;
+  }
+
+
   uploadSubmission()
   async{
     try {
@@ -208,6 +229,7 @@ class _NetworkImagesState extends State<NetworkImages> {
         "date": _dateString,
         "time": _timeString,
         "name" : userName,
+        "e-punjab" : punjab,
         'imageFiles': map,
         'topic': widget.topic
       };
@@ -241,7 +263,6 @@ class _NetworkImagesState extends State<NetworkImages> {
 
   @override
   Widget build(BuildContext context) {
-    // return Container();
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
@@ -479,8 +500,7 @@ class _NetworkImagesState extends State<NetworkImages> {
 
 
             SizedBox(height: 20),
-
-              Container(
+              widget.isSyllabus != true ? Container(
                 padding: EdgeInsets.only(left: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -684,90 +704,156 @@ class _NetworkImagesState extends State<NetworkImages> {
                                     ),
                                   ),
                                 ),
-                                GestureDetector(
-                                  onTap: ()
-                                  {
-                                    uploadSubmission();
-                                    showDialog(
-                                      // barrierDismissible: false,
-                                      context: context,
-
-                                      builder: (BuildContext context) {
-
-                                        return AlertDialog(
-                                          actions: <Widget>[
-                                            _isSend ? TextButton(
-                                              child: Text(
-                                                'OK',
-                                                style: GoogleFonts.montserrat(),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                                _fileSend = 0;
-                                                _bytesSend = 0;
-                                              },
-                                            ) : Container(),
-                                          ],
-                                          content: StatefulBuilder(
-                                            builder: (BuildContext context, StateSetter setState) {
-                                              _setState = setState;
-
-                                              return Container(
-                                                  child: Column(
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    children: [
-                                                      Text('Files sent', style: GoogleFonts.montserrat(),),
-
-                                                      Text('${_fileSend.toString()} / ${_selectedFiles.length}', style: GoogleFonts.montserrat(),),
-                                                      Text('$_bytesSend MB Sent', style: GoogleFonts.montserrat(),)
-                                                    ],
-                                                  )
-                                              );
-                                            },
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.symmetric(vertical: 10),
-                                    width: MediaQuery.of(context).size.width/1.4,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Colors.teal[100],
-                                          Colors.teal[300],
-                                          Colors.teal
-                                        ]
-                                      ),
-                                      borderRadius: BorderRadius.circular(10)
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        'Submit',
-                                        style: GoogleFonts.montserrat(
-                                          textStyle: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 25
-                                          )
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                )
                               ],
                             );
                           }
                       ),
+
                     ),
+                    _selectedFiles.length != 0 ? Container(
+                      padding: EdgeInsets.only(left: 10),
+                      child: GestureDetector(
+                        onTap: ()
+                        {
+                          uploadSubmission();
+                          showDialog(
+                            // barrierDismissible: false,
+                            context: context,
+
+                            builder: (BuildContext context) {
+
+                              return AlertDialog(
+                                actions: <Widget>[
+                                  _isSend ? TextButton(
+                                    child: Text(
+                                      'OK',
+                                      style: GoogleFonts.montserrat(),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      _fileSend = 0;
+                                      _bytesSend = 0;
+                                    },
+                                  ) : Container(),
+                                ],
+                                content: StatefulBuilder(
+                                  builder: (BuildContext context, StateSetter setState) {
+                                    _setState = setState;
+
+                                    return Container(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text('Files sent', style: GoogleFonts.montserrat(),),
+
+                                            Text('${_fileSend.toString()} / ${_selectedFiles.length}', style: GoogleFonts.montserrat(),),
+                                            Text('$_bytesSend MB Sent', style: GoogleFonts.montserrat(),)
+                                          ],
+                                        )
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: Container(
+                          margin: EdgeInsets.symmetric(vertical: 10),
+                          width: MediaQuery.of(context).size.width/1.4,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  colors: [
+                                    Colors.teal[100],
+                                    Colors.teal[300],
+                                    Colors.teal
+                                  ]
+                              ),
+                              borderRadius: BorderRadius.circular(10)
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Submit',
+                              style: GoogleFonts.montserrat(
+                                  textStyle: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 25
+                                  )
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ) : Container(),
                   ],
                 ),
-              ),
+              ) : Container(),
+              widget.isSyllabus ? GestureDetector(
+                onTap: () => _launchInBrowser(widget.link, context),
+                child: Material(
+                  elevation: 7,
+                  borderRadius: BorderRadius.circular(15),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width/2.5,
+                    height: 60,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        gradient: LinearGradient(
+                        colors: [
+                          Colors.teal[100],
+                          Colors.teal[200],
+                          Colors.teal[400],
+                        ]
+                      )
+                    ),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Open Link',
+                        style: GoogleFonts.montserrat(
+                          textStyle: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20
+                          )
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ): Container()
             ],
           )
         ],
       )
     );
+  }
+}
+
+
+Future<void> _launchInBrowser(String url, context) async {
+
+
+  try {
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      await launch(
+        url,
+        forceSafariVC: false,
+        forceWebView: false,
+        headers: <String, String>{'my_header_key': 'my_header_value'},
+      );
+    }
+    else {
+      url = 'https://$url';
+
+      await launch(
+        url,
+        forceSafariVC: false,
+        forceWebView: false,
+        headers: <String, String>{'my_header_key': 'my_header_value'},
+      );
+    }
+  }catch(e){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Can't Open Link", style: GoogleFonts.montserrat())));
   }
 }

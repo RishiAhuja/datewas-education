@@ -1,8 +1,8 @@
+import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 
 class PDFView extends StatefulWidget {
   final String url;
@@ -15,6 +15,10 @@ class PDFView extends StatefulWidget {
 class _PDFViewState extends State<PDFView> {
   bool _isLoading = true;
   PDFDocument document;
+  bool downloading=true;
+  String downloadingStr="No data";
+  double download=0.0;
+  File f;
 
   @override
   void initState() {
@@ -27,11 +31,10 @@ class _PDFViewState extends State<PDFView> {
     document = await PDFDocument.fromURL(widget.url);
     setState(() => _isLoading = false);
   }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(        
+      home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
           elevation: 0,
@@ -56,3 +59,4 @@ class _PDFViewState extends State<PDFView> {
     );
   }
 }
+

@@ -45,7 +45,7 @@ dependencies:
   image_picker: 0.6.0+4
   flutter_linkify: ^5.0.2
   cached_network_image:
-
+  image_downloader: ^0.30.0
 
 dev_dependencies:
   flutter_test:

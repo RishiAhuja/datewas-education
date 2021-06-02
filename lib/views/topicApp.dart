@@ -11,13 +11,14 @@ import 'package:intl/intl.dart';
 
 class TopicAdd extends StatefulWidget {
   final String collection;
-  TopicAdd({@required this.collection});
+  final int classInt;
+  TopicAdd({@required this.collection, @required this.classInt});
   @override
   _TopicAddState createState() => _TopicAddState();
 }
 
 
-
+bool _isSyllabus = false;
 
 class _TopicAddState extends State<TopicAdd> {
   List headerList = [];
@@ -28,10 +29,14 @@ class _TopicAddState extends State<TopicAdd> {
   List imageFiles = [];
   String imageF;
   bool _isLoaded = false;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    if(widget.collection == '${widget.classInt}thSyllabus'){
+      _isSyllabus = true;
+    }
     loadData();
   }
 
@@ -95,33 +100,37 @@ class _TopicAddState extends State<TopicAdd> {
         children: [
           Column(
             children: [
-              Container(
-                height: 50,
-                width: MediaQuery.of(context).size.width/1.5,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.lightBlueAccent,
-                      Colors.blue
-                    ]
+              Material(
+                borderRadius: BorderRadius.circular(15),
+                elevation: 7,
+                child: Container(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width/1.5,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.lightBlueAccent,
+                        Colors.blue
+                      ]
+                    ),
                   ),
-                ),
-                child: GestureDetector(
-                  onTap: ()
-                  {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => UploadingForm()));
-                  },
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Create one',
-                      style: GoogleFonts.montserrat(
-                        textStyle: TextStyle(
-                            fontSize: 25,
-                            color: Colors.white
-                        ),
-                      )
+                  child: GestureDetector(
+                    onTap: ()
+                    {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => UploadingForm(collection: widget.collection, classInt: widget.classInt,)));
+                    },
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Create one',
+                        style: GoogleFonts.montserrat(
+                          textStyle: TextStyle(
+                              fontSize: 25,
+                              color: Colors.white
+                          ),
+                        )
+                      ),
                     ),
                   ),
                 ),
@@ -187,7 +196,7 @@ class DataLoader extends StatelessWidget {
                     ),
                   ],
                 ),
-                Padding(
+                _isSyllabus == false ? Padding(
                   padding: const EdgeInsets.only(right: 18),
                   child: IconButton(
                     icon: Icon(Icons.remove_red_eye),
@@ -196,7 +205,7 @@ class DataLoader extends StatelessWidget {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => Submmision(topic: header, collection: '${collection}Sub',)));
                     },
                   ),
-                )
+                ): Container()
               ],
             )
           )

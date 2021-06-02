@@ -24,7 +24,7 @@ class _SubmmisionState extends State<Submmision> {
   List time = [];
   List imageFiles = [];
   bool _isLoaded = false;
-
+  List ePunjab = [];
   final Map<String, String> map = {
 
   };
@@ -45,6 +45,7 @@ class _SubmmisionState extends State<Submmision> {
         sub.add(document.data['name']);
         date.add(document.data['date']);
         time.add(document.data['time']);
+        ePunjab.add(document.data['e-punjab']);
         imageFiles.add(jsonEncode(document.data['imageFiles']));
         print(imageFiles);
       });
@@ -66,6 +67,7 @@ class _SubmmisionState extends State<Submmision> {
           date: date[index],
           time: time[index],
           imageFiles: imageFiles[index],
+          punjab: ePunjab[index]
         );
       },
     ) ;
@@ -93,7 +95,8 @@ class SearchTile extends StatelessWidget {
   final String date;
   final String time;
   final String imageFiles;
-  SearchTile({this.userName, this.time, this.date, this.imageFiles});
+  final String punjab;
+  SearchTile({this.userName, this.time, this.date, this.imageFiles, this.punjab});
 
   @override
   Widget build(BuildContext context) {
@@ -118,15 +121,32 @@ class SearchTile extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AutoSizeText(
-                          toBeginningOfSentenceCase(userName),
-                        style: GoogleFonts.montserrat(
-                          textStyle: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold
-                          )
-                        ),
+                      Row(
+                        children: [
+                          AutoSizeText(
+                            toBeginningOfSentenceCase(userName),
+                            minFontSize: 10,
+                            maxLines: 3,
+                            style: GoogleFonts.montserrat(
+                                textStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold
+                                )
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          punjab != null ?
+                          AutoSizeText(
+                            punjab,
+                            minFontSize: 9,
+                            style: GoogleFonts.montserrat(
+                                textStyle: TextStyle(
+                                    color: Colors.grey[400],
+                                    fontWeight: FontWeight.bold
+                                )
+                            ),
+                          ) : Container()
+                        ],
                       ),
                       SizedBox(height: 5,),
                       Text(

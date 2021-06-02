@@ -46,6 +46,15 @@ class DatabaseMethods
     Firestore.instance.collection("${classText}thSolutionSub").add(userMap);
   }
 
+  syllabus1(int classText, userMap)
+    {
+      Firestore.instance.collection("${classText}S1").add(userMap);
+    }
+  syllabus2(int classText, userMap)
+    {
+      Firestore.instance.collection("${classText}S2").add(userMap);
+    }
+
 
 
 

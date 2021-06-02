@@ -17,6 +17,7 @@ class _SignUpState extends State<SignUp> {
   final formKey = GlobalKey<FormState>();
   TextEditingController nameController = new TextEditingController();
   TextEditingController numberController = new TextEditingController();
+  TextEditingController punjabController = new TextEditingController();
   DatabaseMethods databaseMethods = new DatabaseMethods();
   String _chosenValue;
 
@@ -26,7 +27,8 @@ class _SignUpState extends State<SignUp> {
       Map<String, String> userMap = {
         "name": nameController.text,
         "phone": numberController.text,
-        "class": _chosenValue
+        "class": _chosenValue,
+        'e-punjab' : punjabController.text
       };
 
       setState(() {
@@ -68,14 +70,14 @@ class _SignUpState extends State<SignUp> {
                 children: [
                   Container(
                     alignment: Alignment.center,
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.fromLTRB(16, 0, 16, 15),
                     child: Text(
                         "Datewas Online Education",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.montserrat(
                         textStyle: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 30,
+                          fontSize: 26,
                           color: Colors.white
                         )
                       ),
@@ -91,7 +93,7 @@ class _SignUpState extends State<SignUp> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       width: MediaQuery.of(context).size.width/1.2,
-                      height: MediaQuery.of(context).size.height/1.8,
+                      height: MediaQuery.of(context).size.height/1.5,
                       child: Column(
                         children: [
                           Container(
@@ -115,7 +117,7 @@ class _SignUpState extends State<SignUp> {
                               children: [
                                 // ----------Name Input Start----------- //
                                 Container(
-                                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+                                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                                     decoration: BoxDecoration(
                                         border: Border.all(color: Colors.grey[400]),
                                         borderRadius: BorderRadius.circular(10)
@@ -155,7 +157,7 @@ class _SignUpState extends State<SignUp> {
                                 // ----------Phone Number Input Start----------- //
 
                                 Container(
-                                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+                                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                                     decoration: BoxDecoration(
                                         border: Border.all(color: Colors.grey[400]),
                                         borderRadius: BorderRadius.circular(10)
@@ -198,7 +200,7 @@ class _SignUpState extends State<SignUp> {
 
                                 //-------------Dropdown-start------------//
                                 Container(
-                                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+                                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                                     decoration: BoxDecoration(
                                         border: Border.all(color: Colors.grey[400]),
                                         borderRadius: BorderRadius.circular(10)
@@ -208,7 +210,7 @@ class _SignUpState extends State<SignUp> {
                                         Padding(
                                           padding: const EdgeInsets.only(left: 10),
                                           child: Icon(
-                                            Icons.phone,
+                                            Icons.class__outlined,
                                             color: Colors.grey,
                                           ),
                                         ),
@@ -262,6 +264,52 @@ class _SignUpState extends State<SignUp> {
                                 ),
 
                                 //-------------Dropdown-End--------------//
+
+
+                                // ----------E-Punjab Input Start----------- //
+
+                                Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.grey[400]),
+                                        borderRadius: BorderRadius.circular(10)
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 10),
+                                          child: Icon(
+                                            Icons.confirmation_number_outlined,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        Container(
+                                          width: MediaQuery.of(context).size.width/2,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(left: 20),
+                                            child: TextFormField(
+                                              validator: (val)
+                                              {
+                                                return val.isEmpty || val.length > 10 || val.length < 3 ? 'Please provide valid E-Punjab number'
+                                                    '' : null;
+                                              },
+
+                                              keyboardType: TextInputType.phone,
+                                              controller: punjabController,
+                                              decoration: InputDecoration(
+
+                                                  hintStyle: GoogleFonts.montserrat(textStyle: TextStyle(color: Colors.grey)),
+                                                  hintText: 'E-Punjab Number',
+                                                  border: InputBorder.none
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                ),
+                                // ----------E-Punjab Input End----------- //
+
                               ],
                             ),
                           ),
@@ -271,6 +319,7 @@ class _SignUpState extends State<SignUp> {
                           // ----------Login Button Start-------------//
                           GestureDetector(
                             onTap: (){
+                              addPunjabToSF();
                               addUserNameToSF();
                               signUserUp();
                               addBoolToSF();
@@ -322,6 +371,11 @@ class _SignUpState extends State<SignUp> {
   addUserNameToSF() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('user', nameController.text);
+  }
+
+  addPunjabToSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('e-punjab', punjabController.text);
   }
 
 }
