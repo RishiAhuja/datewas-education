@@ -51,6 +51,7 @@ class _ClassRoomDataShowState extends State<ClassRoomDataShow> {
         timeList.add(document.data['time']);
         pdfList.add(document.data['pdf']);
         imageFiles.add(jsonEncode(document.data['imageFiles']));
+        print(linkList);
       });
     });
   }
@@ -61,14 +62,14 @@ class _ClassRoomDataShowState extends State<ClassRoomDataShow> {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.symmetric(vertical: 20),
+          margin: EdgeInsets.only(bottom: 20),
           alignment: Alignment.center,
           child: Text(
             '${widget.dataName}',
             textAlign: TextAlign.center,
             style: GoogleFonts.montserrat(
                 textStyle: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 30
                 )
@@ -110,7 +111,8 @@ class _ClassRoomDataShowState extends State<ClassRoomDataShow> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.tealAccent[200],
+        leading: IconButton(icon: Icon(Icons.arrow_back_ios_outlined), onPressed: () => Navigator.pop(context), color: Colors.black,),
+        backgroundColor: Colors.white,
         elevation: 0,
       ),
       body: DataList(),
@@ -157,34 +159,35 @@ class TileData extends StatelessWidget {
             },
             child: Material(
               elevation: 10,
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(7),
               child: Container(
                   padding: EdgeInsets.all(10),
 
                   decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30)
+                      color: Colors.blue[900],
+                      borderRadius: BorderRadius.circular(7)
                   ),
                   child: Container(
                     child: Row(
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 15),
-                          child: Text("${index + 1}.", style: GoogleFonts.montserrat(textStyle: TextStyle(fontSize: 17)),)
+                          child: Text("${index + 1}.", style: GoogleFonts.montserrat(textStyle: TextStyle(fontSize: 17, color: Colors.white)),)
                         ),
                         SizedBox(width: 20),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            AutoSizeText(                             
+                            AutoSizeText(
                               toBeginningOfSentenceCase(header),
-                              maxLines: 4,                             
-                              style: GoogleFonts.montserrat(),
+                              maxLines: 4,
+                              style: GoogleFonts.montserrat(textStyle: TextStyle(color: Colors.white, fontWeight:
+                              FontWeight.bold)),
                             ),
                             Text(
                               '$date at $time',
                               maxLines: 5,
-                              style: GoogleFonts.montserrat(),
+                              style: GoogleFonts.montserrat(textStyle: TextStyle(color: Colors.white)),
                             )
                           ],
                         ),

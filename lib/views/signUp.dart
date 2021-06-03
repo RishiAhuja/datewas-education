@@ -49,11 +49,11 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.tealAccent[200],
+          backgroundColor: Colors.white,
           elevation: 0,
         actions: [
           IconButton(
-            icon: Icon(Icons.admin_panel_settings),
+            icon: Icon(Icons.admin_panel_settings, color: Colors.black),
             onPressed: (){
               Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
             },
@@ -78,7 +78,7 @@ class _SignUpState extends State<SignUp> {
                         textStyle: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 26,
-                          color: Colors.white
+                          color: Colors.black
                         )
                       ),
                     ),
@@ -119,7 +119,7 @@ class _SignUpState extends State<SignUp> {
                                 Container(
                                     margin: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                                     decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey[400]),
+                                        border: Border.all(color: Colors.blue[900]),
                                         borderRadius: BorderRadius.circular(10)
                                     ),
                                     child: Row(
@@ -128,7 +128,7 @@ class _SignUpState extends State<SignUp> {
                                           padding: const EdgeInsets.only(left: 10),
                                           child: Icon(
                                             Icons.people,
-                                            color: Colors.grey,
+                                            color: Colors.blue[900],
                                           ),
                                         ),
                                         Container(
@@ -142,7 +142,7 @@ class _SignUpState extends State<SignUp> {
 
                                               controller: nameController,
                                               decoration: InputDecoration(
-                                                  hintStyle: GoogleFonts.montserrat(textStyle: TextStyle(color: Colors.grey)),
+                                                  hintStyle: GoogleFonts.montserrat(textStyle: TextStyle(color: Colors.blue[900])),
                                                   hintText: 'Name',
                                                   border: InputBorder.none
                                               ),
@@ -159,7 +159,7 @@ class _SignUpState extends State<SignUp> {
                                 Container(
                                     margin: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                                     decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey[400]),
+                                        border: Border.all(color: Colors.blue[900]),
                                         borderRadius: BorderRadius.circular(10)
                                     ),
                                     child: Row(
@@ -168,7 +168,7 @@ class _SignUpState extends State<SignUp> {
                                           padding: const EdgeInsets.only(left: 10),
                                           child: Icon(
                                             Icons.phone,
-                                            color: Colors.grey,
+                                            color: Colors.blue[900],
                                           ),
                                         ),
                                         Container(
@@ -185,7 +185,7 @@ class _SignUpState extends State<SignUp> {
                                               controller: numberController,
                                               decoration: InputDecoration(
 
-                                                  hintStyle: GoogleFonts.montserrat(textStyle: TextStyle(color: Colors.grey)),
+                                                  hintStyle: GoogleFonts.montserrat(textStyle: TextStyle(color: Colors.blue[900])),
                                                   hintText: 'Phone Number',
                                                   border: InputBorder.none
                                               ),
@@ -202,7 +202,7 @@ class _SignUpState extends State<SignUp> {
                                 Container(
                                     margin: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                                     decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey[400]),
+                                        border: Border.all(color: Colors.blue[900]),
                                         borderRadius: BorderRadius.circular(10)
                                     ),
                                     child: Row(
@@ -211,7 +211,7 @@ class _SignUpState extends State<SignUp> {
                                           padding: const EdgeInsets.only(left: 10),
                                           child: Icon(
                                             Icons.class__outlined,
-                                            color: Colors.grey,
+                                            color: Colors.blue[900],
                                           ),
                                         ),
                                         Container(
@@ -225,7 +225,7 @@ class _SignUpState extends State<SignUp> {
                                                 elevation: 15,
 
                                                 style: TextStyle(color: Colors.white),
-                                                iconEnabledColor:Colors.grey,
+                                                iconEnabledColor:Colors.blue[900],
                                                 items: <String>[
                                                   '6th',
                                                   '7th',
@@ -247,7 +247,7 @@ class _SignUpState extends State<SignUp> {
                                                 hint: Text(
                                                   "Class",
                                                   style: GoogleFonts.montserrat(textStyle: TextStyle(
-                                                      color: Colors.grey,),
+                                                      color: Colors.blue[900],),
                                                 ),),
                                                 onChanged: (String value) {
                                                   setState(() {
@@ -271,7 +271,7 @@ class _SignUpState extends State<SignUp> {
                                 Container(
                                     margin: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                                     decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey[400]),
+                                        border: Border.all(color: Colors.blue[900]),
                                         borderRadius: BorderRadius.circular(10)
                                     ),
                                     child: Row(
@@ -280,7 +280,7 @@ class _SignUpState extends State<SignUp> {
                                           padding: const EdgeInsets.only(left: 10),
                                           child: Icon(
                                             Icons.confirmation_number_outlined,
-                                            color: Colors.grey,
+                                            color: Colors.blue[900],
                                           ),
                                         ),
                                         Container(
@@ -298,7 +298,7 @@ class _SignUpState extends State<SignUp> {
                                               controller: punjabController,
                                               decoration: InputDecoration(
 
-                                                  hintStyle: GoogleFonts.montserrat(textStyle: TextStyle(color: Colors.grey)),
+                                                  hintStyle: GoogleFonts.montserrat(textStyle: TextStyle(color: Colors.blue[900])),
                                                   hintText: 'E-Punjab Number',
                                                   border: InputBorder.none
                                               ),
@@ -329,8 +329,8 @@ class _SignUpState extends State<SignUp> {
                               width: MediaQuery.of(context).size.width/1.45,
                               height: 50,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: Colors.grey
+                                borderRadius: BorderRadius.circular(7),
+                                color: Colors.blue[900]
                               ),
                               child: Align(
                                 alignment: Alignment.center,

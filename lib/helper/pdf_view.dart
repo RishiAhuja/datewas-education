@@ -3,6 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PDFView extends StatefulWidget {
   final String url;
@@ -36,6 +37,12 @@ class _PDFViewState extends State<PDFView> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          actions: [
+            IconButton(
+              onPressed: () => _launchInBrowser(widget.url),
+              icon: Icon(Icons.download_rounded, color: Colors.white),
+            )
+          ],
           backgroundColor: Colors.blue,
           elevation: 0,
           leading: IconButton(icon: Icon(Icons.arrow_back_ios_outlined, color: Colors.white,), onPressed: () => Navigator.pop(context),),
@@ -60,3 +67,30 @@ class _PDFViewState extends State<PDFView> {
   }
 }
 
+Future<void> _launchInBrowser(String url) async {
+
+
+  if(url.startsWith('http://') || url.startsWith('https://'))
+  {
+    await launch(
+      url,
+      forceSafariVC: false,
+      forceWebView: false,
+      headers: <String, String>{'my_header_key': 'my_header_value'},
+    );
+
+
+  }
+  else{
+    url = 'https://$url';
+
+
+    await launch(
+      url,
+      forceSafariVC: false,
+      forceWebView: false,
+      headers: <String, String>{'my_header_key': 'my_header_value'},
+    );
+  }
+
+}

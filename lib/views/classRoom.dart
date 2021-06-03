@@ -17,14 +17,14 @@ class _ClassRoomState extends State<ClassRoom> {
           'Choose your class',
           style: GoogleFonts.montserrat(
             textStyle: TextStyle(
-              color: Colors.white,
+              color: Colors.black,
               fontWeight: FontWeight.bold,
               fontSize: 25
             )
           ),
         ),
         elevation: 0,
-        backgroundColor: Colors.tealAccent[200],
+        backgroundColor: Colors.white,
       ),
       body: ListView(
         shrinkWrap: true,
@@ -87,14 +87,14 @@ Widget classRoomButton(String classText, context)
     child: GestureDetector(
       onTap: () => onClassRoomButtonPressed(classText, context),
       child: Material(
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(6),
         elevation: 7,
         child: Container(
           height: 55,
           width: MediaQuery.of(context).size.width/1.3,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              color: Colors.grey[400]
+              borderRadius: BorderRadius.circular(6),
+              color: Colors.blue[900]
           ),
           child: Align(
               alignment: Alignment.center,

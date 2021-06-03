@@ -13,7 +13,8 @@ class _UploadHomeworkState extends State<UploadHomework> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.tealAccent[200],
+          leading: IconButton(icon: Icon(Icons.arrow_back_ios_outlined), onPressed: () => Navigator.pop(context), color: Colors.black,),
+          backgroundColor: Colors.white,
           elevation: 0,
         ),
       body: ListView(
@@ -27,7 +28,7 @@ class _UploadHomeworkState extends State<UploadHomework> {
                   'Select a class!',
                   style: GoogleFonts.montserrat(
                     textStyle: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 30
                     )
@@ -138,14 +139,14 @@ Widget classButton(String classText, context)
     child: GestureDetector(
       onTap: () => onButtonPressed(classText, context),
       child: Material(
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(7),
         elevation: 7,
         child: Container(
           height: 55,
           width: MediaQuery.of(context).size.width/1.3,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              color: Colors.grey[400]
+              borderRadius: BorderRadius.circular(7),
+              color: Colors.blue[900]
           ),
           child: Align(
               alignment: Alignment.center,

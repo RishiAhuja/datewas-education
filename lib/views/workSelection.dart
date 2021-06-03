@@ -150,7 +150,8 @@ class _WorkSelectionState extends State<WorkSelection> {
       key: _scaffoldKey,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.tealAccent[200],
+        backgroundColor: Colors.white,
+        leading: IconButton(color: Colors.black, icon: Icon(Icons.arrow_back_ios_outlined), onPressed: () => Navigator.pop(context),),
       ),
       body: Container(
         child: ListView(
@@ -162,18 +163,18 @@ class _WorkSelectionState extends State<WorkSelection> {
                   Container(
                     alignment: Alignment.center,
                     child: Text(
-                      '${widget.classInt}th',
+                      '${widget.classInt}th Class',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.montserrat(
                         textStyle: TextStyle(
                           fontSize: 35,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white
+                          color: Colors.black
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 30),
+                  SizedBox(height: 10),
 
 
 
@@ -187,25 +188,28 @@ class _WorkSelectionState extends State<WorkSelection> {
                       child: Column(
                         children: [
                           Material(
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(6),
                             elevation: 7,
                             child: Container(
                               width: MediaQuery.of(context).size.width/1.3,
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  color: Colors.grey[400]
+                                  borderRadius: BorderRadius.circular(6),
+                                  color: Colors.blue[900]
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.all(18.0),
-                                child: Text(
-                                    'Text Books',
-                                    style: GoogleFonts.montserrat(
-                                      textStyle: TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold
-                                      ),
-                                    )
+                                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                      'Text Books',
+                                      style: GoogleFonts.montserrat(
+                                        textStyle: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      )
+                                  ),
                                 ),
                               ),
                             ),
@@ -223,8 +227,6 @@ class _WorkSelectionState extends State<WorkSelection> {
                   GestureDetector(
                     onTap: ()
                     {
-                      // Navigator.push(context, MaterialPageRoute(builder: (context) => TopicAdd(collection: '${widget.classInt}thSyllabus', classInt: widget
-                      //     .classInt,)));
                       Navigator.push(context, MaterialPageRoute(builder: (context) => YearMonthly(classInt: widget
                           .classInt,)));
                     },
@@ -233,25 +235,71 @@ class _WorkSelectionState extends State<WorkSelection> {
                       child: Column(
                         children: [
                           Material(
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(6),
                             elevation: 7,
                             child: Container(
                               width: MediaQuery.of(context).size.width/1.3,
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  color: Colors.grey[400]
+                                  borderRadius: BorderRadius.circular(6),
+                                  color: Colors.blue[900]
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.all(18.0),
-                                child: Text(
-                                    'Syllabus',
-                                    style: GoogleFonts.montserrat(
-                                      textStyle: TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold
-                                      ),
-                                    )
+                                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                      'Syllabus',
+                                      style: GoogleFonts.montserrat(
+                                        textStyle: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      )
+                                  ),
+                                ),
+                              ),
+                            ),
+
+
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: ()
+                    {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => TopicAdd(collection: '${widget.classInt}TM', classInt: widget
+                          .classInt,)));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Material(
+                            borderRadius: BorderRadius.circular(6),
+                            elevation: 7,
+                            child: Container(
+                              width: MediaQuery.of(context).size.width/1.3,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6),
+                                  color: Colors.blue[900]
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                      'Text Material',
+                                      style: GoogleFonts.montserrat(
+                                        textStyle: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      )
+                                  ),
                                 ),
                               ),
                             ),
@@ -270,13 +318,13 @@ class _WorkSelectionState extends State<WorkSelection> {
           child: Column(
             children: [
               Material(
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(6),
                 elevation: 7,
                 child: Container(
                   width: MediaQuery.of(context).size.width/1.3,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: Colors.grey[400]
+                      borderRadius: BorderRadius.circular(6),
+                      color: Colors.blue[900]
                   ),
                   child: ExpansionTile(
                     onExpansionChanged: (val) {
@@ -287,15 +335,24 @@ class _WorkSelectionState extends State<WorkSelection> {
                       Icons.keyboard_arrow_down_rounded,
                       color: Colors.white,
                     ),
-                    title: Text(
-                        'Video Material',
-                        style: GoogleFonts.montserrat(
-                          textStyle: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold
+                    title: Align(
+                      alignment: Alignment.center,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Opacity(opacity: 0, child: Icon(Icons.keyboard_arrow_down_sharp)),
+                          Text(
+                              'Video Material',
+                              style: GoogleFonts.montserrat(
+                                textStyle: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold
+                                ),
+                              )
                           ),
-                        )
+                        ],
+                      ),
                     ),
                     children: <Widget>[
                       Container(
@@ -406,46 +463,7 @@ class _WorkSelectionState extends State<WorkSelection> {
 
 
 
-                  GestureDetector(
-                    onTap: ()
-                    {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => TopicAdd(collection: '${widget.classInt}thSolution', classInt: widget
-                          .classInt,)));
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Material(
-                            borderRadius: BorderRadius.circular(30),
-                            elevation: 7,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width/1.3,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  color: Colors.grey[400]
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(18.0),
-                                child: Text(
-                                    'Solutions',
-                                    style: GoogleFonts.montserrat(
-                                      textStyle: TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold
-                                      ),
-                                    )
-                                ),
-                              ),
-                            ),
 
-
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
         GestureDetector(
           onTap: () 
           {
@@ -457,25 +475,28 @@ class _WorkSelectionState extends State<WorkSelection> {
               child: Column(
                 children: [
                   Material(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(6),
                     elevation: 7,
                     child: Container(
                       width: MediaQuery.of(context).size.width/1.3,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Colors.grey[400]
+                          borderRadius: BorderRadius.circular(6),
+                          color: Colors.blue[900]
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(18.0),
-                        child: Text(
-                            'Question Bank',
-                            style: GoogleFonts.montserrat(
-                              textStyle: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold
-                              ),
-                            )
+                        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                              'Daily Assignment',
+                              style: GoogleFonts.montserrat(
+                                textStyle: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold
+                                ),
+                              )
+                          ),
                         ),
                       ),
                       ),
@@ -488,35 +509,86 @@ class _WorkSelectionState extends State<WorkSelection> {
         ),
 
 
+                  GestureDetector(
+                    onTap: ()
+                    {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => TopicAdd(collection: '${widget.classInt}thSolution', classInt: widget
+                          .classInt,)));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Material(
+                            borderRadius: BorderRadius.circular(6),
+                            elevation: 7,
+                            child: Container(
+                              width: MediaQuery.of(context).size.width/1.3,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6),
+                                  color: Colors.blue[900]
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                      'Assignment Solutions',
+                                      style: GoogleFonts.montserrat(
+                                        textStyle: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      )
+                                  ),
+                                ),
+                              ),
+                            ),
 
+
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
 
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
               Material(
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(6),
                 elevation: 7,
                 child: Container(
                   width: MediaQuery.of(context).size.width/1.3,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: Colors.grey[400]
+                      borderRadius: BorderRadius.circular(6),
+                      color: Colors.blue[900]
                   ),
                   child: ExpansionTile(
                     trailing: Icon(
                       Icons.keyboard_arrow_down_rounded,
                       color: Colors.white,
                     ),
-                    title: Text(
-                        'Zoom Link',
-                        style: GoogleFonts.montserrat(
-                          textStyle: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold
+                    title: Align(
+                      alignment: Alignment.center,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Opacity(opacity: 0, child: Icon(Icons.keyboard_arrow_down_sharp)),
+                          Text(
+                              'Zoom Link',
+                              style: GoogleFonts.montserrat(
+                                textStyle: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold
+                                ),
+                              )
                           ),
-                        )
+                        ],
+                      ),
                     ),
                     children: <Widget>[
                       Container(
@@ -622,6 +694,49 @@ class _WorkSelectionState extends State<WorkSelection> {
 
 
 
+                  GestureDetector(
+                    onTap: ()
+                    {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => TopicAdd(collection: '${widget.classInt}PYQ', classInt: widget
+                          .classInt,)));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Material(
+                            borderRadius: BorderRadius.circular(6),
+                            elevation: 7,
+                            child: Container(
+                              width: MediaQuery.of(context).size.width/1.3,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6),
+                                  color: Colors.blue[900]
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                      'Question Bank',
+                                      style: GoogleFonts.montserrat(
+                                        textStyle: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      )
+                                  ),
+                                ),
+                              ),
+                            ),
+
+
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
 
                   GestureDetector(
                     onTap: ()
@@ -633,25 +748,28 @@ class _WorkSelectionState extends State<WorkSelection> {
                       child: Column(
                         children: [
                           Material(
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(6),
                             elevation: 7,
                             child: Container(
                               width: MediaQuery.of(context).size.width/1.3,
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  color: Colors.grey[400]
+                                  borderRadius: BorderRadius.circular(6),
+                                  color: Colors.blue[900]
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.all(18.0),
-                                child: Text(
-                                    'Time Table',
-                                    style: GoogleFonts.montserrat(
-                                      textStyle: TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold
-                                      ),
-                                    )
+                                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                      'Time Table',
+                                      style: GoogleFonts.montserrat(
+                                        textStyle: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      )
+                                  ),
                                 ),
                               ),
                             ),

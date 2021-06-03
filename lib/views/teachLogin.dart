@@ -16,10 +16,11 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.tealAccent[200],
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        leading: IconButton(icon: Icon(Icons.arrow_back_ios_outlined), onPressed: () => Navigator.pop(context), color: Colors.black,),
         elevation: 0,
-        backgroundColor: Colors.tealAccent[200],
+        backgroundColor: Colors.white,
       ),
       body: ListView(
         shrinkWrap: true,
@@ -35,7 +36,7 @@ class _LoginState extends State<Login> {
                     style: GoogleFonts.montserrat(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white
+                      color: Colors.black
                     )
                   ),
                 ),
@@ -47,7 +48,7 @@ class _LoginState extends State<Login> {
                   height: 200,
                   child: Icon(
                       Icons.login,
-                    color: Colors.white,
+                    color: Colors.black,
                     size: 100,
                   )
                 ),
@@ -95,14 +96,14 @@ class _LoginState extends State<Login> {
                   }
                 },
                 child: Material(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(7),
                   elevation: 7,
                   child: Container(
                   height: 55,
                   width: MediaQuery.of(context).size.width/1.3,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: Colors.grey[400]
+                    borderRadius: BorderRadius.circular(7),
+                    color: Colors.blue[900]
                   ),
                   child: Align(
                     alignment: Alignment.center,

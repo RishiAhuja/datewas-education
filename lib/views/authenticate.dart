@@ -52,7 +52,8 @@ class _AuthenticateState extends State<Authenticate> {
       return MaterialApp(
           title: 'Flutter Demo',
           theme: ThemeData(
-            scaffoldBackgroundColor: Colors.tealAccent[200],
+            scaffoldBackgroundColor: Colors.white,
+            // scaffoldBackgroundColor: Colors.tealAccent[200],
             primarySwatch: Colors.blue,
           ), home: ClassRoom());
     }
@@ -60,7 +61,7 @@ class _AuthenticateState extends State<Authenticate> {
       return MaterialApp(
           title: 'Flutter Demo',
           theme: ThemeData(
-            scaffoldBackgroundColor: Colors.tealAccent[200],
+            scaffoldBackgroundColor: Colors.white,
             primarySwatch: Colors.blue,
           ), home: SignUp());
     }

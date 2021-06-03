@@ -283,7 +283,7 @@ class _NetworkImagesState extends State<NetworkImages> {
                 padding: EdgeInsets.only(left: 20),
                 child: Row(
                   children: [
-                    Icon(Icons.menu_book, color: Colors.teal),
+                    Icon(Icons.menu_book, color: Colors.blue[900]),
                     SizedBox(width: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -330,7 +330,7 @@ class _NetworkImagesState extends State<NetworkImages> {
                 padding: EdgeInsets.only(left: 20),
                 child: Row(
                   children: [
-                    Icon(Icons.watch_later, color: Colors.teal),
+                    Icon(Icons.watch_later, color: Colors.blue[900]),
                     SizedBox(width: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -338,7 +338,7 @@ class _NetworkImagesState extends State<NetworkImages> {
                         Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                                'Test date and time',
+                                'Date and time',
                                 style:  GoogleFonts.montserrat(
                                     textStyle: TextStyle(
                                       color: Colors.black,
@@ -381,7 +381,7 @@ class _NetworkImagesState extends State<NetworkImages> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.attach_file_sharp, color: Colors.teal),
+                        Icon(Icons.attach_file_sharp, color: Colors.blue[900]),
                         SizedBox(width: 10),
                         Align(
                             alignment: Alignment.centerLeft,
@@ -425,7 +425,7 @@ class _NetworkImagesState extends State<NetworkImages> {
                                   margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                                   width: MediaQuery.of(context).size.width/1.3,
                                   decoration: BoxDecoration(
-                                    color: Colors.teal[200],
+                                    color: Colors.blue[900],
                                     borderRadius: BorderRadius.circular(10),
 
                                   ),
@@ -449,7 +449,8 @@ class _NetworkImagesState extends State<NetworkImages> {
                                                       'Please check your network and try again',
                                                       textAlign: TextAlign.center,
                                                       style: GoogleFonts.montserrat(
-                                                          fontSize: 14
+                                                          fontSize: 14,
+                                                        textStyle: TextStyle(color: Colors.white)
                                                       ),
                                                     ),
                                                   ),
@@ -507,7 +508,7 @@ class _NetworkImagesState extends State<NetworkImages> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.send_sharp, color: Colors.teal),
+                        Icon(Icons.send_sharp, color: Colors.blue[900]),
                         SizedBox(width: 10),
                         Align(
                             alignment: Alignment.centerLeft,
@@ -601,7 +602,7 @@ class _NetworkImagesState extends State<NetworkImages> {
                             margin: EdgeInsets.all(8),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
-                              border: Border.all(color: Colors.teal, width: 2)
+                              border: Border.all(color: Colors.blue[900], width: 2)
                             ),
                             child: Row(
                               children: [
@@ -651,7 +652,7 @@ class _NetworkImagesState extends State<NetworkImages> {
                                     margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                                     width: MediaQuery.of(context).size.width/1.3,
                                     decoration: BoxDecoration(
-                                      color: Colors.teal[200],
+                                      color: Colors.blue[900],
                                       borderRadius: BorderRadius.circular(10),
 
                                     ),
@@ -764,9 +765,9 @@ class _NetworkImagesState extends State<NetworkImages> {
                           decoration: BoxDecoration(
                               gradient: LinearGradient(
                                   colors: [
-                                    Colors.teal[100],
-                                    Colors.teal[300],
-                                    Colors.teal
+                                    Colors.blue[400],
+                                    Colors.blue,
+                                    Colors.blue[900]
                                   ]
                               ),
                               borderRadius: BorderRadius.circular(10)
@@ -788,7 +789,7 @@ class _NetworkImagesState extends State<NetworkImages> {
                   ],
                 ),
               ) : Container(),
-              widget.isSyllabus ? GestureDetector(
+              GestureDetector(
                 onTap: () => _launchInBrowser(widget.link, context),
                 child: Material(
                   elevation: 7,
@@ -800,9 +801,9 @@ class _NetworkImagesState extends State<NetworkImages> {
                         borderRadius: BorderRadius.circular(15),
                         gradient: LinearGradient(
                         colors: [
-                          Colors.teal[100],
-                          Colors.teal[200],
-                          Colors.teal[400],
+                          Colors.blue,
+                          Colors.blue[700],
+                          Colors.blue[900],
                         ]
                       )
                     ),
@@ -821,7 +822,7 @@ class _NetworkImagesState extends State<NetworkImages> {
                     ),
                   ),
                 ),
-              ): Container()
+              )
             ],
           )
         ],

@@ -54,6 +54,14 @@ class DatabaseMethods
     {
       Firestore.instance.collection("${classText}S2").add(userMap);
     }
+    textMaterial(int classText, userMap)
+    {
+      Firestore.instance.collection("${classText}TM").add(userMap);
+    }
+    PYQ(int classText, userMap)
+    {
+      Firestore.instance.collection("${classText}PYQ").add(userMap);
+    }
 
 
 

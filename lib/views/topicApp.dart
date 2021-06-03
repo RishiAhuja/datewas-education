@@ -19,6 +19,7 @@ class TopicAdd extends StatefulWidget {
 
 
 bool _isSyllabus = false;
+bool _eye = true;
 
 class _TopicAddState extends State<TopicAdd> {
   List headerList = [];
@@ -34,8 +35,17 @@ class _TopicAddState extends State<TopicAdd> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if(widget.collection == '${widget.classInt}thSyllabus'){
-      _isSyllabus = true;
+    if(widget.collection == '${widget.classInt}PYQ')
+      {
+        setState(() {
+          _eye = false;
+        });
+      }
+    if(widget.collection == '${widget.classInt}thSolution')
+    {
+      setState(() {
+        _eye = false;
+      });
     }
     loadData();
   }
@@ -92,8 +102,12 @@ class _TopicAddState extends State<TopicAdd> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          onPressed: () => Navigator.pop(context),
+        ),
         elevation: 0,
-        backgroundColor: Colors.tealAccent[200],
+        backgroundColor: Colors.white,
       ),
       body: ListView(
         shrinkWrap: true,
@@ -110,8 +124,8 @@ class _TopicAddState extends State<TopicAdd> {
                     borderRadius: BorderRadius.circular(15),
                     gradient: LinearGradient(
                       colors: [
-                        Colors.lightBlueAccent,
-                        Colors.blue
+                        Colors.blue[600],
+                        Colors.blue[800]
                       ]
                     ),
                   ),
@@ -159,13 +173,13 @@ class DataLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       elevation: 10,
-      borderRadius: BorderRadius.circular(30),
+      borderRadius: BorderRadius.circular(7),
       child: Container(
           //padding: EdgeInsets.all(10),
 
           decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(30)
+              color: Colors.blue[900],
+              borderRadius: BorderRadius.circular(7)
           ),
           child: Container(
             height: 60,
@@ -176,7 +190,7 @@ class DataLoader extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 15),
-                      child: Icon(Icons.book_rounded),
+                      child: Icon(Icons.book_rounded, color: Colors.white),
                     ),
                     SizedBox(width: 20),
                     Column(
@@ -186,20 +200,20 @@ class DataLoader extends StatelessWidget {
                         AutoSizeText(
                           toBeginningOfSentenceCase(header),
                           maxLines: 4,
-                          style: GoogleFonts.montserrat(),
+                          style: GoogleFonts.montserrat(textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                         ),
                         Text(
                           '$date at $time',
-                          style: GoogleFonts.montserrat(),
+                          style: GoogleFonts.montserrat(textStyle: TextStyle(color: Colors.white)),
                         )
                       ],
                     ),
                   ],
                 ),
-                _isSyllabus == false ? Padding(
+                 _eye ? Padding(
                   padding: const EdgeInsets.only(right: 18),
                   child: IconButton(
-                    icon: Icon(Icons.remove_red_eye),
+                    icon: Icon(Icons.remove_red_eye, color: Colors.white),
                     onPressed: ()
                     {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => Submmision(topic: header, collection: '${collection}Sub',)));
