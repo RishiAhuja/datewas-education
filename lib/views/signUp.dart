@@ -1,10 +1,13 @@
+import 'dart:math';
+
+import 'package:datewas_education/helper/otpCheck.dart';
 import 'package:datewas_education/services/database.dart';
 import 'package:datewas_education/views/classRoom.dart';
 import 'package:datewas_education/views/teachLogin.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:flutter_otp/flutter_otp.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -20,24 +23,16 @@ class _SignUpState extends State<SignUp> {
   TextEditingController punjabController = new TextEditingController();
   DatabaseMethods databaseMethods = new DatabaseMethods();
   String _chosenValue;
+  String _randomString;
+  FlutterOtp otp = FlutterOtp();
 
-  signUserUp()
-  {
-    if(formKey.currentState.validate()){
-      Map<String, String> userMap = {
-        "name": nameController.text,
-        "phone": numberController.text,
-        "class": _chosenValue,
-        'e-punjab' : punjabController.text
-      };
-
-      setState(() {
-        _isLoading = true;
-      });
-        databaseMethods.uploadUserInfo(userMap);
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ClassRoom()));
-      //});
+  void _randomGen(){
+    random(min, max){
+      var rn = new Random();
+      return min + rn.nextInt(max - min);
     }
+    _randomString = random(1000,6000).toString();// Output : 19, 6, 15..
+    print(_randomString);
   }
 
   @override
@@ -320,10 +315,11 @@ class _SignUpState extends State<SignUp> {
                           // ----------Login Button Start-------------//
                           GestureDetector(
                             onTap: (){
-                              addPunjabToSF();
-                              addUserNameToSF();
-                              signUserUp();
-                              addBoolToSF();
+                              _randomGen();
+                              otp.sendOtp(numberController.text, 'OTP is : $_randomString',
+                                  1000, 6000, '+91');
+                              print('oo god!');
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => OTPCheck(otp: _randomString, studentClass: _chosenValue, studentName: nameController.text, studentNumber: numberController.text, studentPunjab: punjabController.text, userType: 'S',)));
                             },
 
                             child: Container(
@@ -364,19 +360,23 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  addBoolToSF() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('isSigned', true);
-  }
-
-  addUserNameToSF() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('user', nameController.text);
-  }
-
-  addPunjabToSF() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('e-punjab', punjabController.text);
-  }
+  // addBoolToSF() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   prefs.setBool('isSigned', true);
+  // }
+  //
+  // addUserNameToSF() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   prefs.setString('user', nameController.text);
+  // }
+  //
+  // addPunjabToSF() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   prefs.setString('e-punjab', punjabController.text);
+  // }
+  // addBoolTeachToSF() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   prefs.setBool('isTeach', false);
+  // }
 
 }

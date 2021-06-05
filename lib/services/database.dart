@@ -12,6 +12,10 @@ class DatabaseMethods
   {
     Firestore.instance.collection("users").add(userMap);
   }
+  uploadTeacherInfo(userMap)
+  {
+    Firestore.instance.collection("Teach").add(userMap);
+  }
 
 
 

@@ -35,23 +35,6 @@ class _TeachSignUpState extends State<TeachSignUp> {
   String _chosenValue;
 
 
-  signUserUp()
-  {
-    if(formKey.currentState.validate()){
-      Map<String, String> userMap = {
-        "name": nameController.text,
-        "phone": numberController.text,
-        "class": _chosenValue,
-      };
-
-      setState(() {
-        _isLoading = true;
-      });
-      databaseMethods.uploadUserInfo(userMap);
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ClassRoom()));
-      //});
-    }
-  }
 
   @override
   void initState() {
@@ -225,7 +208,7 @@ class _TeachSignUpState extends State<TeachSignUp> {
                                 otp.sendOtp(numberController.text, 'OTP is : $randomString',
                                     1000, 6000, '+91');
                                 print('oo god!');
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => OTPCheck(otp: randomString,)));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => OTPCheck(otp: randomString, teachNumber: numberController.text, teachName: numberController.text, userType: 'T',)));
                               },
 
                               child: Container(
