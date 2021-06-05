@@ -1,5 +1,6 @@
 import 'package:datewas_education/views/classRoom.dart';
 import 'package:datewas_education/views/signUp.dart';
+import 'package:datewas_education/views/userSelection.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -50,7 +51,7 @@ class _AuthenticateState extends State<Authenticate> {
 
     if(_isSigned){
       return MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Datewas Education',
           theme: ThemeData(
             scaffoldBackgroundColor: Colors.white,
             // scaffoldBackgroundColor: Colors.tealAccent[200],
@@ -59,11 +60,11 @@ class _AuthenticateState extends State<Authenticate> {
     }
     else {
       return MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Datewas Education',
           theme: ThemeData(
             scaffoldBackgroundColor: Colors.white,
             primarySwatch: Colors.blue,
-          ), home: SignUp());
+          ), home: UserSelection());
     }
 
 
