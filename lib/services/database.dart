@@ -66,6 +66,14 @@ class DatabaseMethods
     {
       Firestore.instance.collection("${classText}PYQ").add(userMap);
     }
+todayT(userMap)
+    {
+      Firestore.instance.collection("TodayT").add(userMap);
+    }
+    IL(userMap)
+    {
+      Firestore.instance.collection("IL").add(userMap);
+    }
 
 
 

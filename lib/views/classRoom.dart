@@ -1,4 +1,5 @@
 import 'package:datewas_education/views/classRoomDataSelection.dart';
+import 'package:datewas_education/views/classRoomDataShow.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -12,6 +13,8 @@ class _ClassRoomState extends State<ClassRoom> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
+        leading: Opacity(opacity: 0, child: Container(),),
         centerTitle: true,
         title: Text(
           'Choose your class',
@@ -40,6 +43,28 @@ class _ClassRoomState extends State<ClassRoom> {
               classRoomButton('11th', context),
               classRoomButton('12th', context),
             ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              topButton("Today's Thought", context),
+              topButton('Important Links', context),
+
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              topButton("Date Sheet", context),
+              topButton("Daily Dakk", context),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              topButton("Performas", context),
+              topButton("Apps", context),
+            ],
           )
         ],
       ),
@@ -51,6 +76,15 @@ class _ClassRoomState extends State<ClassRoom> {
 
 onClassRoomButtonPressed(String text, context)
 {
+  if(text == "Today's Thought")
+  {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ClassRoomDataShow(dataName: "Today's Thought", collection: 'TodayT', PDForLink: true, isSyllabus: true,)));
+  }
+  if(text == 'Important Links')
+  {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ClassRoomDataShow(dataName: 'Important Links', collection: 'IL', PDForLink: false, isSyllabus: false,)));
+  }
+
   if(text == "6th"){
     Navigator.push(context, MaterialPageRoute(builder: (context) => ClassRoomDataSelection(classText: 6)));
   }
@@ -100,6 +134,7 @@ Widget classRoomButton(String classText, context)
               alignment: Alignment.center,
               child: Text(
                   '$classText',
+                  textAlign: TextAlign.center,
                   style: GoogleFonts.montserrat(
                     textStyle: TextStyle(
                         fontSize: 20,
@@ -115,5 +150,40 @@ Widget classRoomButton(String classText, context)
   );
 }
 
-
+Widget topButton(String classText, context)
+{
+  return Padding(
+    padding: const EdgeInsets.all(12.0),
+    child: GestureDetector(
+      onTap: () => onClassRoomButtonPressed(classText, context),
+      child: Material(
+        borderRadius: BorderRadius.circular(15),
+        elevation: 7,
+        child: Container(
+          padding: EdgeInsets.all(8),
+          height: 70,
+          width: MediaQuery.of(context).size.width/2.5,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Colors.blue[900]
+          ),
+          child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                  '$classText',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.montserrat(
+                    textStyle: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold
+                    ),
+                  )
+              )
+          ),
+        ),
+      ),
+    ),
+  );
+}
 

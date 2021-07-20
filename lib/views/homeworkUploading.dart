@@ -1,3 +1,6 @@
+import 'package:datewas_education/helper/IL.dart';
+import 'package:datewas_education/helper/TT.dart';
+import 'package:datewas_education/helper/form.dart';
 import 'package:datewas_education/views/showUser.dart';
 import 'package:datewas_education/views/workSelection.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +45,28 @@ class _UploadHomeworkState extends State<UploadHomework> {
               classButton("10th", context),
               classButton("11th", context),
               classButton("12th", context),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  topButton("Today's Thought", context),
+                  topButton('Important Links', context),
+
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  topButton("Date Sheet", context),
+                  topButton("Daily Dakk", context),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  topButton("Performas", context),
+                  topButton("Apps", context),
+                ],
+              ),
               SizedBox(height: 15),
               GestureDetector(
                 onTap: ()
@@ -89,6 +114,14 @@ class _UploadHomeworkState extends State<UploadHomework> {
 
 onButtonPressed(String text, context)
 {
+  if(text == "Today's Thought")
+    {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => TodayT()));
+    }
+  if(text == "Important Links")
+    {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ImpL()));
+    }
   if(text == "6th")
     {
       Navigator.push(context, MaterialPageRoute(builder: (context) => WorkSelection(classInt: 6, )));
@@ -152,6 +185,41 @@ Widget classButton(String classText, context)
               alignment: Alignment.center,
               child: Text(
                   '$classText',
+                  style: GoogleFonts.montserrat(
+                    textStyle: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold
+                    ),
+                  )
+              )
+          ),
+        ),
+      ),
+    ),
+  );
+}
+Widget topButton(String classText, context)
+{
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: GestureDetector(
+      onTap: () => onButtonPressed(classText, context),
+      child: Material(
+        borderRadius: BorderRadius.circular(7),
+        elevation: 7,
+        child: Container(
+          height: 70,
+          width: MediaQuery.of(context).size.width/2.5,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(7),
+              color: Colors.blue[900]
+          ),
+          child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                  '$classText',
+                  textAlign: TextAlign.center,
                   style: GoogleFonts.montserrat(
                     textStyle: TextStyle(
                         fontSize: 20,
